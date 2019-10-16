@@ -7,7 +7,7 @@ services:
     image: rabbitmq:3-management
     restart: unless-stopped
     volumes:
-      - rabbit_data:/var/lib/rabbitmq
+      - ./data/rabbitmq:/var/lib/rabbitmq
     ports:
       - 15672:15672
     environment:
@@ -16,8 +16,9 @@ services:
 
   rabbitmq-consumer:
     build:
-      context: .
-      dockerfile: ./docker/rabbitmq/consumer.Dockerfile
+      context: ./rabbitmq/
+      dockerfile: consumer.Dockerfile
+    image: rabbitmq-consumer
     restart: unless-stopped
     volumes:
       - ./rabbitmq/consumer/:/opt/scripts/
@@ -35,4 +36,4 @@ services:
       # - ELASTICSEARCH_PASSWORD=admin
       # - ELASTICSEARCH_HTTP_SCHEME=https
       # - ELASTICSEARCH_PORT=443
-    command: python3 /opt/scripts/consume_bot_messages.py
+    command: /opt/scripts/consume_bot_messages.py
