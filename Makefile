@@ -9,3 +9,6 @@ stop:
 
 logs:
 	docker-compose logs -f rabbitmq rabbitmq-consumer
+
+setup:
+	docker network create -d bridge chatbot-consumer-network

@@ -7,7 +7,14 @@ Based on the rabbitmq module from https://github.com/lappis-unb/rasa-ptbr-boiler
 First edit docker-compose.yml and change the users, passwords and urls to the correct ones.
 
 ## Using on the same machine as the Rasa service
-If your chatbot project will run in the same machine as the consumer create a bridged docker network that exposes the Rasa and Elasticsearch service of your bot to the consumer.
+If your chatbot project will run in the same machine as the consumer create a docker network and expose the Rasa and Elasticsearch service of your bot to the consumer.
+
+Network creation:
+```
+$ docker network create -d bridge chatbot-consumer-network
+```
+You can also run `make setup` on this project to call the command above
+
 
 Example:
 ```
@@ -18,7 +25,7 @@ services:
     ports:
       - 5005:5005
     networks:
-      - rasa-chatbot-network
+      - chatbot-consumer-network
       - default
 ... 
   elasticsearch:
@@ -26,21 +33,22 @@ services:
       - 9200:9200
       - 9300:9300
     networks:
-      - rasa-chatbot-network
+      - chatbot-consumer-network
       - default
 
 ...
 networks:
-  rasa-chatbot-network:
-    driver: bridge
+  default:
+    external:
+      name: chatbot-consumer-network
 ```
 
-The name of the network is rasa-chatbot-network. Supposing that the chatbot project is named bot-project, then on the consumer docker-compose you should set a network like this:
+Also setup the consumer docker-compose with a network like this:
 ```
 networks:
   default:
     external:
-      name: bot-project_rasa-chatbot-network
+      name: chatbot-consumer-network
 ```
 
 You can use `docker network ls` to see the current networks on the machine and check the correct name to use.

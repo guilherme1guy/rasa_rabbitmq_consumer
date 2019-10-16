@@ -41,4 +41,4 @@ services:
 networks:
   default:
     external:
-      name: bot-project_rasa-chatbot-network
+      name: chatbot-consumer-network
