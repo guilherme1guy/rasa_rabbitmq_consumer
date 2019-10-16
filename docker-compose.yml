@@ -37,3 +37,8 @@ services:
       # - ELASTICSEARCH_HTTP_SCHEME=https
       # - ELASTICSEARCH_PORT=443
     command: /opt/scripts/consume_bot_messages.py
+
+networks:
+  default:
+    external:
+      name: bot-project_rasa-chatbot-network
