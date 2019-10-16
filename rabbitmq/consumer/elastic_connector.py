@@ -53,7 +53,7 @@ class ElasticConnector():
 
     def insert_on_elastic(self, ts, message):
         try:
-            self.es.index(index='messages', doc_type='message',
+            self.es.index(index='messages',
                           id='{}_user_{}'.format(ENVIRONMENT_NAME, gen_id(ts)),
                           body=json.dumps(message))
         except Exception as ex:
