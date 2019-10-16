@@ -97,10 +97,12 @@ class ElasticConnector():
 
             'entities': user_message['parse_data']['entities'],
             'intent_name': user_message['parse_data']['intent']['name'],
-            'intent_confidence': (user_message['parse_data']
-                                              ['intent']['confidence']),
+            'intent_confidence': (user_message['parse_data']['intent']['confidence']),
+            'intent_ranking': user_message['parse_data']['intent_ranking'],
             'utter_name': '',
+            'utter_text': '',
             'is_fallback': False,
+            'input_channel': user_message['input_channel']
         }
 
         self.insert_on_elastic(ts, message)
@@ -126,9 +128,13 @@ class ElasticConnector():
             'entities': [],
             'intent_name': user_message['parse_data']['intent']['name'],
             'intent_confidence': '',
-
+            'intent_confidence': (user_message['parse_data']['intent']['confidence']),
+            'intent_ranking': user_message['parse_data']['intent_ranking'],
             'utter_name': action_message['name'],
+            'utter_text': bot_message['text'],
             'is_fallback': action_message['name'] == 'action_default_fallback',
+            'input_channel': user_message['input_channel']
         }
+
 
         self.insert_on_elastic(ts, message)
