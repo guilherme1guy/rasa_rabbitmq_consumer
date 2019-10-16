@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  # =============================== Broker ====================================
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    volumes:
+      - rabbit_data:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+
+  rabbitmq-consumer:
+    build:
+      context: .
+      dockerfile: ./docker/rabbitmq/consumer.Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./rabbitmq/consumer/:/opt/scripts/
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+
+      # Analytics config
+      - ELASTICSEARCH_URL=elasticsearch:9200
+      - ENVIRONMENT_NAME=localhost
+      - BOT_VERSION=1.0
+      # - ELASTICSEARCH_USER=admin
+      # - ELASTICSEARCH_PASSWORD=admin
+      # - ELASTICSEARCH_HTTP_SCHEME=https
+      # - ELASTICSEARCH_PORT=443
+    command: python3 /opt/scripts/consume_bot_messages.py
