@@ -127,8 +127,7 @@ class ElasticConnector():
 
             'entities': [],
             'intent_name': user_message['parse_data']['intent']['name'],
-            'intent_confidence': '',
-            'intent_confidence': (user_message['parse_data']['intent']['confidence']),
+            'intent_confidence': user_message['parse_data']['intent']['confidence'],
             'intent_ranking': user_message['parse_data']['intent_ranking'],
             'utter_name': action_message['name'],
             'utter_text': bot_message['text'],
