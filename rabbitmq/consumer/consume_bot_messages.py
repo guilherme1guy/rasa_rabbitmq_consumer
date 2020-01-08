@@ -44,6 +44,10 @@ def callback(ch, method, properties, body):
     message = json.loads(body.decode('utf-8'))
 
     if message['event'] == 'user':
+
+        if message['text'] is None:
+            return
+
         _elastic_connector.save_user_message(message)
         _elastic_connector.previous_user_message = message
 
