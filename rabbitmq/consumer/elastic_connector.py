@@ -66,7 +66,7 @@ class ElasticConnector():
 
         ts = time.time()
         timestamp = datetime.datetime.strftime(
-            datetime.datetime.fromtimestamp(ts),
+            datetime.datetime.fromtimestamp(user_message['timestamp']),
             '%Y/%m/%d %H:%M:%S'
         )
 
@@ -110,7 +110,7 @@ class ElasticConnector():
     def save_bot_message(self, bot_message, action_message, user_message):
         ts = time.time()
         timestamp = datetime.datetime.strftime(
-            datetime.datetime.fromtimestamp(ts),
+            datetime.datetime.fromtimestamp(bot_message['timestamp']),
             '%Y/%m/%d %H:%M:%S'
         )
 
